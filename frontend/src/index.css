@@ -1,0 +1,78 @@
+:root {
+  /* テキスト */
+  --text-black: #000000;
+  --text-white: #ffffff;
+  --label: #626264;
+  --link: #0017c1;
+  /* 背景 */
+  --standard: #f8f8f8;
+  --highlight: #0017c1;
+  --control: #f1f1f4;
+  /* プライマリ */
+  --primary-blue-1200: #000060;
+  --primary-blue-900: #0017c1;
+  --primary-blue-600: #3460fb;
+  --primary-blue-400: #7096fb;
+  --primary-blue-200: #c5d7fb;
+  --primary-blue-50: #d9e6ef;
+  /* セカンダリ */
+  --secondary-yellow-800: #a58000;
+  --secondary-yellow-600: #d2a400;
+  --secondary-yellow-400: #ffc700;
+  /* ニュートラル */
+  --neutral-solid-gray-800: #333333;
+  --neutral-solid-gray-600: #666666;
+  --neutral-solid-gray-400: #999999;
+  --neutral-solid-gray-200: #cccccc;
+  /* セマンティック */
+  --positive-blue-600: #3460fb;
+  --positive-blue-200: #c5d7fb;
+  --positive-blue-50: #e8f1fe;
+  --negative-red-600: #fe3939;
+  --negative-red-200: #ffbbbb;
+  --negative-red-50: #fdeeee;
+  /* success */
+  --success: #197a4b;
+  --error: #ce0000;
+  /* font */
+  font-size: 14px;
+  font-family:
+    "Noto Sans JP",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+#root {
+  background: var(--standard);
+  color: var(--text-black);
+  min-height: 100dvh;
+  width: 100%;
+}
+
+.error {
+  color: var(--error);
+}
+
+.handle {
+  opacity: 0;
+}
+
+.btn-search-top {
+  align-items: center;
+  border-radius: 0.5rem;
+  border: none;
+  display: flex;
+}
+.btn-search-top:hover {
+  background: var(--neutral-solid-gray-400);
+  cursor: pointer;
+}

@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: "ja-JP"
+early_access: false
+tone_instructions: |
+    あなたはReact,TypeScript,Goの熟練エンジニアです。以下内容を重点的にレビューをすること
+    - レビュー：指摘時は何が問題かを明確に示し、可能なら改善案コードも提示すること
+    - 保守性・可読性：冗長性の排除、命名の適切さ、設計原則(SOLID等)の遵守
+    - 安全性・堅牢性：セキュリティ脆弱性の指摘、潜在的なバグの予測
+    - 品質保証：テストコードの網羅性(エッジケースの考慮)
+reviews:
+  profile: "chill"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches: ["develop", "phase1"]
+  path_instructions:
+    - path: "backend/internal/models/**/*.go"
+      instructions: |
+        - Effective Goの考え方及び「docs/gogideline.md」の内容が守られているか
+        - 責務: ビジネスロジックを肥大化させず、データ構造の定義に徹しているか
+        - 命名: Goのイディオムに沿った構造体名か
+
+    - path: "backend/internal/repository/**/*.go"
+      instructions: |
+        - Effective Goの考え方及び「docs/gogideline.md」の内容が守られているか
+        - 責務: 外部APIへの依存を隠蔽できているか。HTTP通信以外のロジックが含まれていないか
+        - 堅牢性: 本層の http.Client は独自の Timeout を設定しないこと（service層に一本化されていること）
+
+    - path: "backend/internal/service/**/*.go"
+      instructions: |
+        - Effective Goの考え方及び「docs/gogideline.md」の内容が守られているか
+        - 責務: ドメイン知識の集約場所として適切か
+        - 堅牢: リポジトリ層のhttp.Clientは、独自のTimeoutを持たないためサービス層側で必ずタイムアウト付きを呼び出すこと
+        - アーキテクチャ前提: 依存注入はmain.goで一元管理され、ValidateEnvVarsによる起動時強制チェックが存在する。
+          そのため各サービスメソッドへのnilガード追加は既存パターンと不整合になるため提案しないこと。
+          既存の VirusTotal/AbuseIPDB/Urlhaus サービスとの設計一貫性を優先すること
+
+    - path: "backend/internal/handler/**/*.go"
+      instructions: |
+        - HTTPステータスコードの使い分けが適切か（400/502等）
+        - サービス層のエラーを適切にハンドリングしているか
+
+    - path: "backend/**/*.go"
+      instructions: |
+        - 新規実装は既存の VirusTotal/AbuseIPDB/Urlhaus の実装パターンと一貫性を保つこと
+        - 既存パターンから逸脱する場合は、明確な理由がある場合のみ指摘すること
+
+    - path: "frontend/src/**/*"
+      instructions: |
+        - 責務分離: プレゼンテーションとロジックの混在排除
+        - React 19機能の適切な活用及び公式が推奨するHooks利用
+        - 命名規約: コンポーネントはパスカルケース、関数・変数はキャメルケース
+        - xyflow(React Flow)使用箇所: ノード/エッジの型定義が明確か、メモ化（useMemo/useCallback）が適切に使われているか
+        - カスタムHooksは単一責務を保ち、副作用の管理が適切か
+        - TypeScriptの型安全性: any/unknown の使用は最小限にし、型ガードを適切に使用しているか
+chat:
+  auto_reply: true

@@ -1,0 +1,6 @@
+.env
+buildfile/*
+backend/host-report.json
+backend/cmd/dist
+backend/testreport/report.html
+frontend/coverage

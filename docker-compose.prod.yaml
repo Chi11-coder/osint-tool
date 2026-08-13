@@ -1,0 +1,9 @@
+services:
+  osint:
+    container_name: osint
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "127.0.0.1:4000:4000"
+    env_file: .env
